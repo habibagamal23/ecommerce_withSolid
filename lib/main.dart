@@ -1,3 +1,4 @@
+import 'package:fibeecomm/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,12 +8,12 @@ import 'features/Login/data/repos/LoginRepositoryImpl.dart';
 import 'features/Login/logic/login_cubit.dart';
 import 'myApp.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setGetit();
   runApp(
-    MultiBlocProvider(providers: [
-      BlocProvider(
-          create: (context) => LoginCubit(
-              LoginRepositoryImpl(DioService(dio: DioFcatory().dio))))
-    ], child: const MyApp()),
+    MultiBlocProvider(
+        providers: [BlocProvider(create: (context) => getit<LoginCubit>())],
+        child: const MyApp()),
   );
 }

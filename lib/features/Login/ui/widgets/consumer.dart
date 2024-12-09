@@ -26,7 +26,7 @@ class ButtonConsumerBloc extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is LoginLoading) {
-          return const LoadingWidget();
+          return const PrettyLoadingWidget();
         }
         return CustomButton(
           text: 'Login',
