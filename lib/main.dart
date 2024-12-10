@@ -1,19 +1,33 @@
-import 'package:fibeecomm/core/di/di.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/network/dio_network/dio_service.dart';
-import 'core/network/dio_network/diofactory.dart';
-import 'features/Login/data/repos/LoginRepositoryImpl.dart';
+import 'app_logic/localization/localization_cubit.dart';
+import 'core/cachhelper/chachhelpe.dart';
+import 'core/di/di.dart';
 import 'features/Login/logic/login_cubit.dart';
+import 'generated/codegen_loader.g.dart';
 import 'myApp.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesHelper.init();
+  await EasyLocalization.ensureInitialized();
   setGetit();
+
   runApp(
-    MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => getit<LoginCubit>())],
-        child: const MyApp()),
+    EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      assetLoader: CodegenLoader(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<LocalizationCubit>(create: (_) => LocalizationCubit()),
+          BlocProvider(create: (context) => getit<LoginCubit>())
+        ],
+        child: const MyApp(),
+      ),
+    ),
   );
 }

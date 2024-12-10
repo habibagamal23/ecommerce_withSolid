@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/cachhelper/chachhelpe.dart';
 import '../data/models/LoginBodyRequest.dart';
 import '../data/models/login_response.dart';
 import '../data/repos/LoginRepository.dart';
@@ -26,6 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
           LoginBodyRequest(username: username.text, password: password.text);
       final result = await LoginRepo.loginUser(login: loginBodyRequest);
       if (result.isSuccess) {
+        await SharedPreferencesHelper.setId(result.data!.id!);
         emit(LoginSuccess(result.data!));
       } else {
         emit(LoginError(result.error!));

@@ -1,40 +1,41 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CacheHelper {
+class SharedPreferencesHelper {
   static late SharedPreferences sharedPreferences;
 
-  init() async {
+  static Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
+  static bool getTheme() {
+  return sharedPreferences.getBool("isDark") ?? false;
+  }
 
-  String? getDataString({
-    required String key,
-  }) {
-    return sharedPreferences.getString(key);
+  static Future<void> setTheme(bool isDark) async {
+  await sharedPreferences.setBool("isDark", isDark);
+  }
+
+  static Future<String?> getLanguage() async {
+    debugPrint('SharedPrefHelper :  get data  language');
+    return sharedPreferences.getString("language");
+  }
+
+  static Future<void> setLanguage(String languageCode) async {
+    debugPrint('SharedPrefHelper :set  data : language ');
+    await sharedPreferences.setString("language", languageCode);
   }
 
 
-  Future<bool> saveData({required String key, required dynamic value}) async {
-    if (value is bool) {
-      return await sharedPreferences.setBool(key, value);
-    }
-    if (value is String) {
-      return await sharedPreferences.setString(key, value);
-    }
-
-    if (value is int) {
-      return await sharedPreferences.setInt(key, value);
-    } else {
-      return await sharedPreferences.setDouble(key, value);
-    }
+  static int? getId() {
+    return sharedPreferences.getInt('user_id');
   }
 
-
-  dynamic getData({required String key}) {
-    return sharedPreferences.get(key);
+  static Future<void> setId(int id) async {
+    debugPrint('SharedPrefHelper : set data id');
+    await sharedPreferences.setInt('user_id', id);
   }
 
 

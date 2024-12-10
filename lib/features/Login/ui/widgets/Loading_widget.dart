@@ -8,7 +8,7 @@ class PrettyLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Center(
-      child: SpinKitFadingCircle(
+      child: SpinKitPouringHourGlass(
         color: Colors.blue,
         size: 50.0.sp,
       ),

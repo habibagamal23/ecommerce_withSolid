@@ -19,7 +19,7 @@ void setGetit() {
 
   /// repositry
   getit.registerLazySingleton<LoginRepository>(
-          () => LoginRepositoryImpl(getit<ApiConsumer>()));
+      () => LoginRepositoryImpl(getit<ApiConsumer>()));
 
   ///cubit
   getit.registerFactory<LoginCubit>(() => LoginCubit(getit<LoginRepository>()));
