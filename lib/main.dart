@@ -23,7 +23,9 @@ void main() async {
       assetLoader: CodegenLoader(),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<LocalizationCubit>(create: (_) => LocalizationCubit()),
+          BlocProvider(
+            create: (context) => LocalizationCubit()..loadLang(context),
+          ),
           BlocProvider(create: (context) => getit<LoginCubit>())
         ],
         child: const MyApp(),

@@ -1,14 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fibeecomm/features/Login/ui/widgets/Usernameandpassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/styles/ColorsManager.dart';
-import '../../../../core/widgets/CustomButton.dart';
-import '../../../../core/widgets/CustomFormTextField.dart';
+import '../../../../app_logic/localization/localization_cubit.dart';
 import '../../../../core/widgets/spacing.dart';
-import '../../logic/login_cubit.dart';
-import '../widgets/Loading_widget.dart';
+
+import '../../../../generated/locale_keys.g.dart';
 import '../widgets/consumer.dart';
 
 class Loginscreen extends StatelessWidget {
@@ -17,6 +15,15 @@ class Loginscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.read<LocalizationCubit>().changeLanguage(context);
+              },
+              icon: Icon(Icons.change_circle))
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -25,16 +32,12 @@ class Loginscreen extends StatelessWidget {
             children: [
               verticalSpace(40),
               Text(
-                'Welcome Back',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(color: ColorsManager.mainDark),
+                LocaleKeys.Authentication_title_Login.tr(),
               ),
               verticalSpace(20),
               const Usernameandpassword(),
               verticalSpace(20),
-             const ButtonConsumerBloc()
+              const ButtonConsumerBloc()
             ],
           ),
         ),

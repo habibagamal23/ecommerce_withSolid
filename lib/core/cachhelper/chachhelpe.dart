@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,11 +9,11 @@ class SharedPreferencesHelper {
   }
 
   static bool getTheme() {
-  return sharedPreferences.getBool("isDark") ?? false;
+    return sharedPreferences.getBool("isDark") ?? false;
   }
 
   static Future<void> setTheme(bool isDark) async {
-  await sharedPreferences.setBool("isDark", isDark);
+    await sharedPreferences.setBool("isDark", isDark);
   }
 
   static Future<String?> getLanguage() async {
@@ -28,7 +26,6 @@ class SharedPreferencesHelper {
     await sharedPreferences.setString("language", languageCode);
   }
 
-
   static int? getId() {
     return sharedPreferences.getInt('user_id');
   }
@@ -38,19 +35,16 @@ class SharedPreferencesHelper {
     await sharedPreferences.setInt('user_id', id);
   }
 
-
   Future<bool> removeData({required String key}) async {
     return await sharedPreferences.remove(key);
   }
 
-// this method to check if local database contains {key}
   Future<bool> containsKey({required String key}) async {
     return sharedPreferences.containsKey(key);
   }
 
-// clear all data in the local database
+// clear all data
   Future<bool> clearData() async {
     return await sharedPreferences.clear();
   }
-
 }

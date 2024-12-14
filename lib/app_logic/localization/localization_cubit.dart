@@ -6,20 +6,34 @@ import 'package:meta/meta.dart';
 part 'localization_state.dart';
 
 class LocalizationCubit extends Cubit<LocalizationState> {
-  LocalizationCubit() : super(const LocalizationInitial(Locale('en')));
+  LocalizationCubit() : super(LocalizatioInitial());
 
-  // Toggle between English and Arabic locales
-  void toggleLocale() {
-    final currentLocale = state.locale;
-    Locale newLocale;
-
-    if (currentLocale.languageCode == 'en') {
-      newLocale = const Locale('ar');
-    } else {
-      newLocale = const Locale('en');
+  /// Load the saved language or fallback to English
+  Future<void> loadLang(BuildContext context) async {
+    try {
+      final savedLocale = EasyLocalization.of(context)?.locale ?? Locale('en');
+      emit(LocalizationChange(savedLocale));
+    } catch (e) {
+      emit(
+          LocalizationChange(Locale('en')));
     }
+  }
 
-    // Emit new state with the updated locale
-    emit(LocalizationChanged(newLocale));
+  /// Change language between English and Arabic
+  Future<void> changeLanguage(BuildContext context) async {
+    try {
+      // Get current locale
+      final currentLocale = state.locale;
+      final Locale newLocale ;
+      if (currentLocale.languageCode == 'en') {
+        newLocale = const Locale('ar');
+      } else {
+        newLocale = const Locale('en');
+      }
+      context.setLocale(newLocale);
+      emit(LocalizationChange(newLocale));
+    } catch (e) {
+      print('Error changing language: $e');
+    }
   }
 }

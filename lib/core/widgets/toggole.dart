@@ -18,7 +18,6 @@ class LanguageToggle extends StatelessWidget {
           value: state.locale.languageCode == 'ar', // Show if Arabic is selected
           onChanged: (bool isArabic) {
             // Toggle the locale using the cubit
-            context.read<LocalizationCubit>().toggleLocale();
 
             // After emitting the new state, set the locale with EasyLocalization
             final newLocale = context.read<LocalizationCubit>().state.locale;

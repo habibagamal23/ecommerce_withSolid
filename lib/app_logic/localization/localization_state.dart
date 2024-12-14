@@ -2,14 +2,15 @@ part of 'localization_cubit.dart';
 
 @immutable
 abstract class LocalizationState {
+  Locale locale;
+  LocalizationState(this.locale);
+}
+
+final class LocalizatioInitial extends LocalizationState {
+  LocalizatioInitial() : super(Locale('en'));
+}
+
+final class LocalizationChange extends LocalizationState {
   final Locale locale;
-  const LocalizationState(this.locale);
-}
-
-class LocalizationInitial extends LocalizationState {
-  const LocalizationInitial(Locale locale) : super(locale);
-}
-
-class LocalizationChanged extends LocalizationState {
-  const LocalizationChanged(Locale locale) : super(locale);
+  LocalizationChange(this.locale) : super(locale);
 }

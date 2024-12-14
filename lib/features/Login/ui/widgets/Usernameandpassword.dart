@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/widgets/CustomFormTextField.dart';
 import '../../../../core/widgets/spacing.dart';
+import '../../../../generated/locale_keys.g.dart';
 import '../../logic/login_cubit.dart';
 
 class Usernameandpassword extends StatelessWidget {
@@ -18,14 +20,14 @@ class Usernameandpassword extends StatelessWidget {
         child: Column(
           children: [
             CustomFormTextField(
-              hintText: 'Enter your username',
-              labelText: 'Username',
+              hintText: LocaleKeys.Authentication_user_name.tr(),
+              labelText: LocaleKeys.Authentication_user_name.tr(),
               controller: context.read<LoginCubit>().username,
             ),
             verticalSpace(20),
             CustomFormTextField(
-              hintText: 'Enter your password',
-              labelText: 'Password',
+              hintText: LocaleKeys.Authentication_password.tr(),
+              labelText: LocaleKeys.Authentication_password.tr(),
               controller: context.read<LoginCubit>().password,
             ),
           ],

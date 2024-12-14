@@ -13,15 +13,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LocalizationCubit, LocalizationState>(
       builder: (context, state) {
-        // Set the current locale from the cubit state
-        final locale = state is LocalizationChanged ? state.locale : Locale('en');
-
         return ScreenUtilInit(
           designSize: const Size(375, 812),
           minTextAdapt: true,
           builder: (context, child) {
             return MaterialApp.router(
-              locale: locale,  // Apply the locale dynamically
+              locale: state.locale,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               debugShowCheckedModeBanner: false,
@@ -34,4 +31,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
