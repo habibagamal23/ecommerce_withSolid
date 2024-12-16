@@ -11,29 +11,23 @@ class LocalizationCubit extends Cubit<LocalizationState> {
   /// Load the saved language or fallback to English
   Future<void> loadLang(BuildContext context) async {
     try {
-      final savedLocale = EasyLocalization.of(context)?.locale ?? Locale('en');
+      final savedLocale = context.locale ;
       emit(LocalizationChange(savedLocale));
     } catch (e) {
-      emit(
-          LocalizationChange(Locale('en')));
+      emit(LocalizationChange(Locale('en')));
     }
   }
 
   /// Change language between English and Arabic
-  Future<void> changeLanguage(BuildContext context) async {
+  Future<void> toggleLanguage(BuildContext context) async {
+    final newLocale =
+        (state.locale.languageCode == 'en') ? Locale('ar') : Locale('en');
+
     try {
-      // Get current locale
-      final currentLocale = state.locale;
-      final Locale newLocale ;
-      if (currentLocale.languageCode == 'en') {
-        newLocale = const Locale('ar');
-      } else {
-        newLocale = const Locale('en');
-      }
       context.setLocale(newLocale);
       emit(LocalizationChange(newLocale));
     } catch (e) {
-      print('Error changing language: $e');
+      print('Error toggling language: $e'); // Optional logging
     }
   }
 }

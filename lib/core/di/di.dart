@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:fibeecomm/features/Login/data/repos/LoginRepository.dart';
 import 'package:fibeecomm/features/Login/data/repos/LoginRepositoryImpl.dart';
 import 'package:fibeecomm/features/Login/logic/login_cubit.dart';
+import 'package:fibeecomm/features/home/data/repos/homerepo.dart';
+import 'package:fibeecomm/features/home/data/repos/homerepoim.dart';
+import 'package:fibeecomm/features/home/logic/home_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../network/apiConsumer.dart';
@@ -23,4 +26,12 @@ void setGetit() {
 
   ///cubit
   getit.registerFactory<LoginCubit>(() => LoginCubit(getit<LoginRepository>()));
+
+///home
+  getit.registerLazySingleton<homerepo>(
+          () => homerepoimp(getit<ApiConsumer>()));
+
+  ///cubit
+  getit.registerFactory<HomeCubit>(() => HomeCubit(getit<homerepo>()));
+
 }

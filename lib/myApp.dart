@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocalizationCubit, LocalizationState>(
+    return  BlocBuilder<LocalizationCubit, LocalizationState>(
       builder: (context, state) {
         return ScreenUtilInit(
           designSize: const Size(375, 812),

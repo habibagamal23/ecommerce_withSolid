@@ -17,7 +17,7 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Text(LocaleKeys.Authentication_title_Login).tr(),
             const SizedBox(height: 20),
-            const LanguageToggle(),  // Language toggle widget
+        // Language toggle widget
           ],
         ),
       ),

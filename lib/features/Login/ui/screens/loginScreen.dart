@@ -19,7 +19,7 @@ class Loginscreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                context.read<LocalizationCubit>().changeLanguage(context);
+                context.read<LocalizationCubit>().toggleLanguage(context);
               },
               icon: Icon(Icons.change_circle))
         ],
@@ -37,7 +37,7 @@ class Loginscreen extends StatelessWidget {
               verticalSpace(20),
               const Usernameandpassword(),
               verticalSpace(20),
-              const ButtonConsumerBloc()
+              const ButtonConsumerBloc(),
             ],
           ),
         ),

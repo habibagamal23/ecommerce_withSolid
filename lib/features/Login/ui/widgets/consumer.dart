@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fibeecomm/core/route/approuter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class ButtonConsumerBloc extends StatelessWidget {
             title: 'Error',
             description: 'Something went wrong ${state.meg}',
             onPress: () {
-          context.pop();
+              context.pop();
             },
           );
         }
@@ -32,7 +33,7 @@ class ButtonConsumerBloc extends StatelessWidget {
                 content:
                     Text('Login successful! ${state.loginResponse.username}')),
           );
-          // Navigate to the next screen
+          context.go(ConstantsRoutes.CategoriesPage);
         }
       },
       builder: (context, state) {
@@ -41,7 +42,7 @@ class ButtonConsumerBloc extends StatelessWidget {
         }
         return Center(
           child: CustomButton(
-            text:  LocaleKeys.Authentication_bottom_login.tr(),
+            text: LocaleKeys.Authentication_bottom_login.tr(),
             onPressed: () {
               context.read<LoginCubit>().loginUser();
             },
