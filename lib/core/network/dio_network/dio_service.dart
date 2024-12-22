@@ -31,4 +31,24 @@ class DioService implements ApiConsumer {
       throw handleDioError(e);
     }
   }
+  @override
+  Future put(String path,
+      {Map<String, dynamic>? data, Map<String, dynamic>? queryParameters}) async {
+    try {
+      final response = await dio.put(path, data: data, queryParameters: queryParameters);
+      return response.data;
+    } on DioException catch (e) {
+      throw handleDioError(e);
+    }
+  }
+
+  @override
+  Future delete(String path, {Map<String, dynamic>? queryParameters}) async {
+    try {
+      final response = await dio.delete(path, queryParameters: queryParameters);
+      return response.data;
+    } on DioException catch (e) {
+      throw handleDioError(e);
+    }
+  }
 }

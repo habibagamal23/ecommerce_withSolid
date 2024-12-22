@@ -13,11 +13,10 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final ILocationService _locationService = LocationService();
 
-  LatLng _selectedLocation = const LatLng(10.762622, 106.660172); // Default location
+  LatLng _selectedLocation = const LatLng(10.762622, 106.660172);
   String _address = "Fetching location...";
   late GoogleMapController _mapController;
 
-  // Maintain markers for the map
   Set<Marker> _markers = {
     Marker(
       markerId: const MarkerId("initial"),
@@ -112,7 +111,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context, _address); // Return the selected address
+                    Navigator.pop(context, _address);
                   },
                   child: const Text("Confirm Location"),
                 ),

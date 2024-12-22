@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductImageViewer extends StatelessWidget {
   final List<String> images;
@@ -9,7 +10,7 @@ class ProductImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 300.h,
       child: PageView.builder(
         itemCount: images.length,
         itemBuilder: (context, index) {

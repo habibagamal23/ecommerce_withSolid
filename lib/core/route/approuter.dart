@@ -1,4 +1,5 @@
 import 'package:fibeecomm/core/route/checklogin.dart';
+import 'package:fibeecomm/features/cart/cartscreen.dart';
 import 'package:fibeecomm/features/home/data/models/product.dart';
 import 'package:fibeecomm/features/home/ui/screens/productdetailes.dart';
 import 'package:fibeecomm/features/home/ui/widgets/appbar.dart';
@@ -8,6 +9,7 @@ import '../../features/Login/ui/screens/loginScreen.dart';
 import '../../features/address/Adressnew/mapscreen.dart';
 import '../../features/address/Adressnew/newscree.dart';
 import '../../features/address/addscreen.dart';
+import '../../features/categoreis/ui/screen.dart';
 import '../../features/home/ui/screens/HomeScreen.dart';
 import '../../features/home/ui/widgets/home.dart';
 import '../../features/onboarding/onboardingscreen.dart';
@@ -20,6 +22,8 @@ class ConstantsRoutes {
   static const String CategoriesPage = "/onboard";
   static const String productPage = "/prod";
   static const String paymentPage = "/paymentPage";
+  static const String CategoryProductsScreen = "/CategoryProductsScreen";
+  static const String cart = "/cart";
 }
 
 class AppRouter {
@@ -57,9 +61,21 @@ class AppRouter {
         GoRoute(
           path: ConstantsRoutes.Mapscreen,
           builder: (context, state) {
-
-            return MapScreen();
+            return PaymentScreenadd();
           },
         ),
+        GoRoute(
+          path: ConstantsRoutes.CategoryProductsScreen,
+          builder: (context, state) {
+            final prod = state.extra as String;
+            return CategoryProductsScreen(categoryName: prod);
+          },
+        ),
+        GoRoute(
+          path: ConstantsRoutes.cart,
+          builder: (context, state) {
+            return CartScreen();
+          },
+        )
       ]);
 }

@@ -33,7 +33,6 @@ class TopHomeProduct extends StatelessWidget {
           );
         } else if (state is HomeSucces) {
           final productsToShow = state.products.take(4).toList();
-
           return GridView.builder(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -43,7 +43,7 @@ class ProductShimmerLoading extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title placeholder
+                  // Title
                   Container(
                     height: 16.h,
                     width: 120.w,
@@ -51,7 +51,7 @@ class ProductShimmerLoading extends StatelessWidget {
                   ),
 
                   SizedBox(height: 2.h),
-                  // Price placeholder
+                  // Price
                   Container(
                     height: 14.h,
                     width: 50.w,

@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fibeecomm/features/cart/logic/card_cubit.dart';
+import 'package:fibeecomm/features/categoreis/logic/category_cubit.dart';
 import 'package:fibeecomm/features/home/logic/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,7 @@ import 'generated/codegen_loader.g.dart';
 import 'myApp.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesHelper.init();
@@ -42,7 +45,9 @@ void main() async {
           BlocProvider(create: (context) => getit<HomeCubit>()..loginUser()),
           BlocProvider(
               create: (context) =>
-              NewAdressCubit(LocationService())..fetchAddress()),
+                  NewAdressCubit(LocationService())..fetchAddress()),
+          BlocProvider(create: (context) => getit<CategoryCubit>()),
+          BlocProvider(create: (context) => getit<cardCubit>()),
         ],
         child: const MyApp(),
       ),

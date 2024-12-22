@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/widgets/CustomButton.dart';
+import '../../../cart/data/models/pro.dart';
+import '../../../cart/logic/card_cubit.dart';
 import '../../data/models/product.dart';
 import '../widgets/pro/im.dart';
 import '../widgets/pro/info.dart';
@@ -80,14 +82,37 @@ class ProductDetailsScreen extends StatelessWidget {
                   text: "Buy Now",
                   onPressed: () {
                     context.push(ConstantsRoutes.paymentPage);
-
-                 }),
+                  }),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: CustomButton(text: "Add to cart", onPressed: () {}),
+          BlocListener<cardCubit, cardState>(
+            listener: (context, state) {
+              if (state is AddCartItemSuccessState) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Added to cart successfully!" )));
+              }
+            },
+            child: Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: CustomButton(
+                  text: "Add to cart",
+                  onPressed: () {
+                    final cartProduct = CartProduct(
+                      id: product.id!,
+                      title: product.title!,
+                      price: product.price!,
+                      quantity: 1,
+                      total: product.price!,
+                      discountPercentage: product.discountPercentage!,
+                      discountedTotal: product.price!,
+                      thumbnail: product.thumbnail!,
+                    );
+                    final cartCubit = context.read<cardCubit>();
+                    cartCubit.addProduct(cartProduct);
+                  },
+                ),
+              ),
             ),
           ),
         ],

@@ -16,7 +16,8 @@ class LocationService implements ILocationService {
     }
 
     return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+        locationSettings:  LocationSettings(
+          accuracy: LocationAccuracy.high,)
     );
   }
 

@@ -17,7 +17,6 @@ class AdressCubit extends Cubit<AdressState> {
       emit(AddressError(e.toString()));
     }
   }
-
   void updateAddress(String newAddress) {
     emit(AddressLoaded(newAddress));
   }

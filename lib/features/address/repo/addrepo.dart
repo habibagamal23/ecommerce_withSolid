@@ -16,7 +16,8 @@ class AddressRepository implements IAddressRepository {
       }
 
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+         locationSettings:  LocationSettings(
+            accuracy: LocationAccuracy.high,)
       );
 
       List<Placemark> placemarks =
