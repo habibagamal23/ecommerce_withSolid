@@ -6,13 +6,13 @@ import 'package:fibeecomm/features/home/ui/widgets/appbar.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/Login/ui/screens/loginScreen.dart';
-import '../../features/address/Adressnew/mapscreen.dart';
-import '../../features/address/Adressnew/newscree.dart';
-import '../../features/address/addscreen.dart';
+
 import '../../features/categoreis/ui/screen.dart';
 import '../../features/home/ui/screens/HomeScreen.dart';
 import '../../features/home/ui/widgets/home.dart';
 import '../../features/onboarding/onboardingscreen.dart';
+import '../../features/payment/Adressnew/newscree.dart';
+import '../../features/payment/addscreen.dart';
 
 class ConstantsRoutes {
   static const String splashScreen = "/";

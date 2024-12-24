@@ -1,4 +1,4 @@
-import 'package:fibeecomm/features/address/Adressnew/renew.dart';
+import 'package:fibeecomm/features/payment/Adressnew/renew.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:fibeecomm/features/address/repo/addrepo.dart';
+import 'package:fibeecomm/features/payment/repo/addrepo.dart';
 import 'package:meta/meta.dart';
 
 part 'adress_state.dart';

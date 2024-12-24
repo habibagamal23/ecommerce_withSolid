@@ -3,13 +3,13 @@
 import 'package:fibeecomm/features/cart/data/models/pro.dart';
 
 class Cart {
-  final int id;
+   int id;
   List<CartProduct> products;
-  final double total;
-  final double discountedTotal;
-  final int userId;
-  final int totalProducts;
-  final int totalQuantity;
+   double total;
+  double discountedTotal;
+   int userId;
+  int totalProducts;
+   int totalQuantity;
 
   Cart({
     required this.id,

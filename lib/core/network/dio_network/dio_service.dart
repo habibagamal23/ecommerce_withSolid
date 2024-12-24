@@ -22,10 +22,10 @@ class DioService implements ApiConsumer {
   @override
   Future post(String path,
       {Map<String, dynamic>? data,
-      Map<String, dynamic>? queryParameters}) async {
+      Map<String, dynamic>? queryParameters , Options? options}) async {
     try {
       final res =
-          await dio.post(path, data: data, queryParameters: queryParameters);
+          await dio.post(path, data: data, queryParameters: queryParameters , options:options);
       return res.data;
     } on DioException catch (e) {
       throw handleDioError(e);

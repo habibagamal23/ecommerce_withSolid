@@ -7,12 +7,16 @@ import 'package:fibeecomm/features/cart/logic/card_cubit.dart';
 import 'package:fibeecomm/features/home/data/repos/homerepo.dart';
 import 'package:fibeecomm/features/home/data/repos/homerepoim.dart';
 import 'package:fibeecomm/features/home/logic/home_cubit.dart';
+import 'package:fibeecomm/features/paymentfet/data/repo/PaymentRepo.dart';
+import 'package:fibeecomm/features/paymentfet/data/repo/PaymentRepoImpl.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/cart/data/repos/cardepo.dart';
+import '../../features/cart/data/repos/cardrepoimp.dart';
 import '../../features/categoreis/data/repos/cartrepoimp.dart';
 import '../../features/categoreis/data/repos/catrepo.dart';
 import '../../features/categoreis/logic/category_cubit.dart';
+import '../../features/paymentfet/logic/payment_cubit.dart';
 import '../network/apiConsumer.dart';
 import '../network/dio_network/dio_service.dart';
 import '../network/dio_network/diofactory.dart';
@@ -33,22 +37,25 @@ void setGetit() {
   ///cubit
   getit.registerFactory<LoginCubit>(() => LoginCubit(getit<LoginRepository>()));
 
-///home
-  getit.registerLazySingleton<homerepo>(
-          () => homerepoimp(getit<ApiConsumer>()));
+  ///home
+  getit
+      .registerLazySingleton<homerepo>(() => homerepoimp(getit<ApiConsumer>()));
 
   ///cubit
   getit.registerFactory<HomeCubit>(() => HomeCubit(getit<homerepo>()));
 
-  getit.registerLazySingleton<catrepo>(
-          () => cartrepoimp(getit<ApiConsumer>()));
+  getit.registerLazySingleton<catrepo>(() => cartrepoimp(getit<ApiConsumer>()));
 
   ///cubit
   getit.registerFactory<CategoryCubit>(() => CategoryCubit(getit<catrepo>()));
 
-
   getit.registerLazySingleton<CartRepository>(
-          () => LocalCartRepository());
-  getit.registerFactory<cardCubit>(() => cardCubit(getit<CartRepository>()));
+      () => CardRepoImp(getit<ApiConsumer>()));
+  getit.registerLazySingleton<cardCubit>(
+      () => cardCubit(getit<CartRepository>()));
 
+  //strip
+  getit.registerLazySingleton<PaymentRepo>(
+      () => PaymentRepoImpl(getit<ApiConsumer>()));
+  getit.registerFactory<PaymentCubit>(() => PaymentCubit(getit<PaymentRepo>()));
 }

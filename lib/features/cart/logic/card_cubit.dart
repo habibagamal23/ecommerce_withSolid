@@ -12,11 +12,14 @@ class cardCubit extends Cubit<cardState> {
 
   cardCubit(this._catRepo) : super(CategoryInitial());
 
+  double totalcart = 0.0;
+
   void getCart() async {
     emit(GetCartItemLoadingState());
     final result = await _catRepo.getCart();
     if (result.isSuccess) {
-        emit(GetCartItemSuccessState(result.data!));
+      emit(GetCartItemSuccessState(result.data!));
+      totalcart = result.data!.total;
     } else {
       emit(GetCartItemErrorState(result.error!));
     }
@@ -28,7 +31,7 @@ class cardCubit extends Cubit<cardState> {
       //        emit(GetCartItemSuccessState(result.data!)); or // call fun get
       emit(GetCartItemSuccessState(result.data!));
       emit(AddCartItemSuccessState(result.data!));
-
+      totalcart = result.data!.total;
     } else {
       emit(GetCartItemErrorState(result.error!));
     }
@@ -37,11 +40,11 @@ class cardCubit extends Cubit<cardState> {
   void updateProductQuantity(int productId, int quantity) async {
     final result = await _catRepo.updateProductQuantity(productId, quantity);
     if (result.isSuccess) {
+      emit(GetCartItemSuccessState(result.data!));
       emit(UpdateItemCountSuccessState(result.data!));
-      getCart();
+      totalcart = result.data!.total;
     } else {
       emit(GetCartItemErrorState(result.error!));
     }
   }
-
 }

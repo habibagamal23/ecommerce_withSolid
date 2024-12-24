@@ -15,7 +15,6 @@ class LocalCartRepository implements CartRepository {
       total += product.price * product.quantity;
       discountedTotal += product.discountedTotal * product.quantity;
     }
-
     return ApiResult.success(
       Cart(
         id: 1,

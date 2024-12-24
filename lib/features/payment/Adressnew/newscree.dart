@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/route/approuter.dart';
+import '../../paymentfet/ui/paymentconsumer.dart';
 import 'new_adress_cubit.dart';
 
 class PaymentScreenaddnew extends StatelessWidget {
@@ -74,6 +75,7 @@ class PaymentScreenaddnew extends StatelessWidget {
               content: "+84932000000\namandamorgan@example.com",
               icon: Icons.edit,
             ),
+            Paymentconsumer()
           ],
         ),
       ),
