@@ -19,15 +19,9 @@ class GetCartItemErrorState extends cardState {
   GetCartItemErrorState(this.error);
 }
 
-// States for adding an item to the cart
-
 class AddCartItemSuccessState extends cardState {
-  final Cart cart;
-  AddCartItemSuccessState(this.cart);
+  CartProduct cartProduct;
+  AddCartItemSuccessState(this.cartProduct);
 }
 
-
-class UpdateItemCountSuccessState extends cardState {
-  final Cart cart;
-  UpdateItemCountSuccessState(this.cart);
-}
+class ItemBuyNow extends cardState {}

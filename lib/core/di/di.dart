@@ -17,6 +17,8 @@ import '../../features/categoreis/data/repos/cartrepoimp.dart';
 import '../../features/categoreis/data/repos/catrepo.dart';
 import '../../features/categoreis/logic/category_cubit.dart';
 import '../../features/paymentfet/logic/payment_cubit.dart';
+import '../../features/search/data/repo/search_repo.dart';
+import '../../features/search/logic/search_cubit.dart';
 import '../network/apiConsumer.dart';
 import '../network/dio_network/dio_service.dart';
 import '../network/dio_network/diofactory.dart';
@@ -48,9 +50,9 @@ void setGetit() {
 
   ///cubit
   getit.registerFactory<CategoryCubit>(() => CategoryCubit(getit<catrepo>()));
-
+  getit.registerLazySingleton<CartCache>(() => CartCache());
   getit.registerLazySingleton<CartRepository>(
-      () => CardRepoImp(getit<ApiConsumer>()));
+      () => CartRepositoryImpl(getit<ApiConsumer>(), getit<CartCache>()));
   getit.registerLazySingleton<cardCubit>(
       () => cardCubit(getit<CartRepository>()));
 
@@ -58,4 +60,11 @@ void setGetit() {
   getit.registerLazySingleton<PaymentRepo>(
       () => PaymentRepoImpl(getit<ApiConsumer>()));
   getit.registerFactory<PaymentCubit>(() => PaymentCubit(getit<PaymentRepo>()));
+
+// search
+  getit.registerLazySingleton<SearchRepo>(
+      () => SearchRepoImp(getit<ApiConsumer>()));
+
+  // Register SearchCubit
+  getit.registerFactory<SearchCubit>(() => SearchCubit(getit<SearchRepo>()));
 }

@@ -13,13 +13,7 @@ class Cartconsumer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<cardCubit, cardState>(
-      listener: (context, state) {
-        if (state is UpdateItemCountSuccessState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Cart updated successfully!")),
-          );
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is GetCartItemLoadingState) {
           return const Center(child: CircularProgressIndicator());

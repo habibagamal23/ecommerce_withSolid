@@ -1,6 +1,6 @@
 class ApiConstants {
   static const String apiBaseUrl = "https://dummyjson.com";
-  static const String login = "$apiBaseUrl/Urlauth/login";
+  static const String login = "$apiBaseUrl/user/login";
   static const String categoryList = "$apiBaseUrl/products/category-list";
   static const String user = '$apiBaseUrl/users';
   static const String products  ="$apiBaseUrl/products";

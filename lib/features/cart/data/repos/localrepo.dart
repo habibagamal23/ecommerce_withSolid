@@ -1,7 +1,76 @@
 import '../../../../core/network/ApiResult.dart';
-import '../models/card.dart';
-import '../models/pro.dart';
+import '../models/CartListResponse.dart';
+import '../models/CartProduct.dart';
 import 'cardepo.dart';
+
+class CartCache {
+  final Map<int, CartProduct> _localCache = {};
+  Cart? _cartCache;
+
+  Cart? get cart => _cartCache;
+
+  Map<int, CartProduct> get products => _localCache;
+
+  void updateCart(Cart cart) {
+    _cartCache = cart;
+    _localCache.clear();
+    for (var product in cart.products) {
+      _localCache[product.id] = product;
+    }
+  }
+
+
+  void  addProduct(CartProduct product)  {
+    if (_localCache.containsKey(product.id)) {
+      _localCache[product.id]!.quantity += product.quantity;
+    } else {
+      _localCache[product.id!] = product;
+    }
+    _refreshCartCache();
+  }
+
+
+  void updateProduct(int productId, int quantity) {
+    if (_localCache.containsKey(productId)) {
+      if (quantity > 0) {
+        _localCache[productId]!.quantity = quantity;
+      } else {
+        _localCache.remove(productId);
+      }
+    }
+    _refreshCartCache();
+  }
+
+
+  void removeProduct(int productId) {
+    _localCache.remove(productId);
+    _refreshCartCache();
+  }
+
+  void clearCache() {
+    _localCache.clear();
+    _cartCache = null;
+  }
+
+  void _refreshCartCache() {
+    final products = _localCache.values.toList();
+    final total = products.fold(0.0, (sum, p) => sum + (p.price * p.quantity));
+    final discountedTotal = products.fold(
+      0.0,
+      (sum, p) => sum + (p.discountedTotal * p.quantity),
+    );
+
+    _cartCache = Cart(
+      id: 1,
+      userId: 1,
+      products: products,
+      total: total,
+      discountedTotal: discountedTotal,
+      totalProducts: products.length,
+      totalQuantity: products.fold(0, (sum, p) => sum + p.quantity),
+    );
+  }
+}
 
 class LocalCartRepository implements CartRepository {
   final Map<int, CartProduct> _products = {};
@@ -21,9 +90,10 @@ class LocalCartRepository implements CartRepository {
         products: _products.values.toList(),
         total: total,
         discountedTotal: discountedTotal,
-        userId: 1, // Fixed for testing
+        userId: 1,
         totalProducts: _products.length,
-        totalQuantity: _products.values.fold(0, (sum, item) => sum + item.quantity),
+        totalQuantity:
+            _products.values.fold(0, (sum, item) => sum + item.quantity),
       ),
     );
   }
@@ -39,7 +109,8 @@ class LocalCartRepository implements CartRepository {
   }
 
   @override
-  Future<ApiResult<Cart>> updateProductQuantity(int productId, int quantity) async {
+  Future<ApiResult<Cart>> updateProductQuantity(
+      int productId, int quantity) async {
     if (_products.containsKey(productId)) {
       if (quantity > 0) {
         _products[productId]!.quantity = quantity;
@@ -59,6 +130,5 @@ class LocalCartRepository implements CartRepository {
   @override
   Future<void> clearCart() async {
     _products.clear();
-
   }
 }

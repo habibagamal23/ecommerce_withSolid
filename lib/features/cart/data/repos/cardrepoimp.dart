@@ -1,17 +1,18 @@
+import 'package:fibeecomm/features/cart/data/repos/localrepo.dart';
+
 import '../../../../core/cachhelper/chachhelpe.dart';
 import '../../../../core/network/ApiConstants.dart';
 import '../../../../core/network/ApiResult.dart';
 import '../../../../core/network/apiConsumer.dart';
-import '../models/card.dart';
-import '../models/pro.dart';
+import '../models/CartListResponse.dart';
+import '../models/CartProduct.dart';
 import 'cardepo.dart';
 
-class CardRepoImp extends CartRepository {
+class CartRepositoryImpl implements CartRepository {
   final ApiConsumer apiConsumer;
-  final Map<int, CartProduct> _products = {}; // Local product cache
-  Cart? _cartCache; // Local cart cache
+  final CartCache cartCache;
 
-  CardRepoImp(this.apiConsumer);
+  CartRepositoryImpl(this.apiConsumer, this.cartCache);
 
   Future<int> _getUserId() async {
     final userId = await SharedPreferencesHelper.getId();
@@ -24,84 +25,50 @@ class CardRepoImp extends CartRepository {
   @override
   Future<ApiResult<Cart>> getCart() async {
     try {
-      // If cache exists, return it directly
-      if (_cartCache != null) {
-        return ApiResult.success(_cartCache!);
+      if (cartCache.cart != null) {
+        return ApiResult.success(cartCache.cart!);
       }
 
-      // Fetch cart from the fake API
-      final userId = await _getUserId();
-      final response = await apiConsumer.get(
-        "https://dummyjson.com/carts/user/$userId",
-      );
-      final carts = response['carts'] as List?;
-      if (carts == null || carts.isEmpty) {
-        return ApiResult.error('No carts found for the user.');
+      final response = await apiConsumer.get("https://dummyjson.com/carts/1");
+      if (response != null) {
+        final cart = Cart.fromJson(response);
+        cartCache.updateCart(cart);
+        return ApiResult.success(cart);
       }
 
-      // Update local cache with the API data
-      _cartCache = Cart.fromJson(carts[0]);
-      for (var product in _cartCache!.products) {
-        _products[product.id] = product;
-      }
-
-      return ApiResult.success(_cartCache!);
+      return ApiResult.error('No cart data found.');
     } catch (e) {
-      return ApiResult.error('Failed to fetch cart items: ${e.toString()}');
+      return ApiResult.error('Failed to fetch cart: ${e.toString()}');
     }
   }
 
   @override
   Future<ApiResult<Cart>> addProduct(CartProduct product) async {
     try {
-      // Update local cache
-      if (_products.containsKey(product.id)) {
-        _products[product.id]!.quantity += product.quantity;
-      } else {
-        _products[product.id] = product;
-      }
-
-      _updateCartCache();
-
-      // Simulate API call (not updating the cache with the API response)
+      cartCache.addProduct(product);
       await apiConsumer.post(
         'https://dummyjson.com/carts/add',
         data: {
           "userId": await _getUserId(),
           "products": [
-            {
-              "id": product.id,
-              "quantity": product.quantity,
-            }
+            {"id": product.id, "quantity": product.quantity},
           ],
         },
       );
 
-      return ApiResult.success(_cartCache!);
+      return ApiResult.success(cartCache.cart!);
     } catch (e) {
       return ApiResult.error('Failed to add product: ${e.toString()}');
     }
   }
 
   @override
-  Future<ApiResult<Cart>> updateProductQuantity(
-      int productId, int quantity) async {
+  Future<ApiResult<Cart>> updateProductQuantity(int productId, int quantity) async {
     try {
-      // Remove product if quantity <= 0
       if (quantity <= 0) {
         return await removeProduct(productId);
       }
-
-      // Update local cache
-      if (_products.containsKey(productId)) {
-        _products[productId]!.quantity = quantity;
-      } else {
-        return ApiResult.error('Product not found in cart.');
-      }
-
-      _updateCartCache();
-
-      // Simulate API call (not updating the cache with the API response)
+        cartCache.updateProduct( productId,  quantity); // Update local cache
       await apiConsumer.put(
         'https://dummyjson.com/carts/1',
         data: {
@@ -112,22 +79,17 @@ class CardRepoImp extends CartRepository {
         },
       );
 
-      return ApiResult.success(_cartCache!);
+      return ApiResult.success(cartCache.cart!);
     } catch (e) {
-      return ApiResult.error(
-          'Failed to update product quantity: ${e.toString()}');
+      return ApiResult.error('Failed to update product: ${e.toString()}');
     }
   }
+
 
   @override
   Future<ApiResult<Cart>> removeProduct(int productId) async {
     try {
-      // Remove from local cache
-      _products.remove(productId);
-
-      _updateCartCache();
-
-      // Simulate API call (not updating the cache with the API response)
+      cartCache.removeProduct(productId);
       await apiConsumer.put(
         'https://dummyjson.com/carts/1',
         data: {
@@ -138,7 +100,7 @@ class CardRepoImp extends CartRepository {
         },
       );
 
-      return ApiResult.success(_cartCache!);
+      return ApiResult.success(cartCache.cart!);
     } catch (e) {
       return ApiResult.error('Failed to remove product: ${e.toString()}');
     }
@@ -147,36 +109,11 @@ class CardRepoImp extends CartRepository {
   @override
   Future<void> clearCart() async {
     try {
-      // Clear local cache
-      _products.clear();
-      _cartCache = null;
+      cartCache.clearCache();
 
-      // Simulate API call
       await apiConsumer.delete("https://dummyjson.com/carts/1");
     } catch (e) {
       throw Exception('Failed to clear cart: ${e.toString()}');
     }
-  }
-
-  // Helper function to update the local cart cache
-  void _updateCartCache() {
-    double total = 0;
-    double discountedTotal = 0;
-
-    for (var product in _products.values) {
-      total += product.price * product.quantity;
-      discountedTotal += product.discountedTotal * product.quantity;
-    }
-
-    _cartCache = Cart(
-      id: 1, // Assuming a single cart
-      products: _products.values.toList(),
-      total: total,
-      discountedTotal: discountedTotal,
-      userId: 1, // Replace with dynamic user ID if needed
-      totalProducts: _products.length,
-      totalQuantity:
-          _products.values.fold(0, (sum, item) => sum + item.quantity),
-    );
   }
 }

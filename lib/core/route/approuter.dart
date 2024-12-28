@@ -13,6 +13,7 @@ import '../../features/home/ui/widgets/home.dart';
 import '../../features/onboarding/onboardingscreen.dart';
 import '../../features/payment/Adressnew/newscree.dart';
 import '../../features/payment/addscreen.dart';
+import '../../features/search/ui/search.dart';
 
 class ConstantsRoutes {
   static const String splashScreen = "/";
@@ -24,6 +25,7 @@ class ConstantsRoutes {
   static const String paymentPage = "/paymentPage";
   static const String CategoryProductsScreen = "/CategoryProductsScreen";
   static const String cart = "/cart";
+  static const String SearchScreen = "/SearchScreen";
 }
 
 class AppRouter {
@@ -75,6 +77,12 @@ class AppRouter {
           path: ConstantsRoutes.cart,
           builder: (context, state) {
             return CartScreen();
+          },
+        ),
+        GoRoute(
+          path: ConstantsRoutes.SearchScreen,
+          builder: (context, state) {
+            return SearchScreen();
           },
         )
       ]);

@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../core/widgets/CustomButton.dart';
-import '../../../cart/data/models/pro.dart';
+import '../../../cart/data/models/CartProduct.dart';
 import '../../../cart/logic/card_cubit.dart';
 import '../../data/models/product.dart';
 import '../widgets/pro/im.dart';
@@ -81,6 +80,8 @@ class ProductDetailsScreen extends StatelessWidget {
               child: CustomButton(
                   text: "Buy Now",
                   onPressed: () {
+                    final cartCubit = context.read<cardCubit>();
+                    cartCubit.setTotalItemBuyNow(product.price);
                     context.push(ConstantsRoutes.paymentPage);
                   }),
             ),
@@ -89,7 +90,7 @@ class ProductDetailsScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is AddCartItemSuccessState) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Added to cart successfully!" )));
+                    content: Text("Added to cart successfully!")));
               }
             },
             child: Expanded(
@@ -98,18 +99,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 child: CustomButton(
                   text: "Add to cart",
                   onPressed: () {
-                    final cartProduct = CartProduct(
-                      id: product.id!,
-                      title: product.title!,
-                      price: product.price!,
-                      quantity: 1,
-                      total: product.price!,
-                      discountPercentage: product.discountPercentage!,
-                      discountedTotal: product.price!,
-                      thumbnail: product.thumbnail!,
-                    );
                     final cartCubit = context.read<cardCubit>();
-                    cartCubit.addProduct(cartProduct);
+                    cartCubit.addProduct(product);
                   },
                 ),
               ),

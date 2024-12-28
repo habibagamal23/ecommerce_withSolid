@@ -1,6 +1,40 @@
 
 
-import 'package:fibeecomm/features/cart/data/models/pro.dart';
+import 'CartProduct.dart';
+
+class CartListResponse {
+  final List<Cart> carts;
+  final int total;
+  final int skip;
+  final int limit;
+
+  CartListResponse({
+    required this.carts,
+    required this.total,
+    required this.skip,
+    required this.limit,
+  });
+
+  factory CartListResponse.fromJson(Map<String, dynamic> json) {
+    return CartListResponse(
+      carts: (json['carts'] as List)
+          .map((cartJson) => Cart.fromJson(cartJson))
+          .toList(),
+      total: json['total'],
+      skip: json['skip'],
+      limit: json['limit'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'carts': carts.map((cart) => cart.toJson()).toList(),
+      'total': total,
+      'skip': skip,
+      'limit': limit,
+    };
+  }
+}
 
 class Cart {
    int id;
@@ -49,36 +83,4 @@ class Cart {
   }
 }
 
-class CartListResponse {
-  final List<Cart> carts;
-  final int total;
-  final int skip;
-  final int limit;
 
-  CartListResponse({
-    required this.carts,
-    required this.total,
-    required this.skip,
-    required this.limit,
-  });
-
-  factory CartListResponse.fromJson(Map<String, dynamic> json) {
-    return CartListResponse(
-      carts: (json['carts'] as List)
-          .map((cartJson) => Cart.fromJson(cartJson))
-          .toList(),
-      total: json['total'],
-      skip: json['skip'],
-      limit: json['limit'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'carts': carts.map((cart) => cart.toJson()).toList(),
-      'total': total,
-      'skip': skip,
-      'limit': limit,
-    };
-  }
-}

@@ -21,10 +21,14 @@ class Homescreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              context
-                  .read<cardCubit>()
-                  .getCart();
-            context.push(ConstantsRoutes.cart);
+              context.read<cardCubit>().getCart();
+              context.push(ConstantsRoutes.cart);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.search_off),
+            onPressed: () {
+              context.push(ConstantsRoutes.SearchScreen);
             },
           ),
         ],
@@ -39,7 +43,7 @@ class Homescreen extends StatelessWidget {
             verticalSpace(40),
             CategoriesPage(),
             TitleWithActions(
-              title:"New Arrivls",
+              title: "New Arrivls",
               onviewPressed: () {},
             ),
             const TopHomeProduct(),

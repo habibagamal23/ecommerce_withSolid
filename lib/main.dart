@@ -15,6 +15,7 @@ import 'features/Login/logic/login_cubit.dart';
 
 import 'features/payment/Adressnew/new_adress_cubit.dart';
 import 'features/payment/Adressnew/renew.dart';
+import 'features/search/logic/search_cubit.dart';
 import 'generated/codegen_loader.g.dart';
 import 'myApp.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
@@ -22,7 +23,8 @@ import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platf
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = "pk_test_51QLO18KCYYcZnriZlyXhnG9ZCL51lgQVnNkTiSDje6oveaCmfxdUNmevP06mmqzdevZTi2GKJBTvsWRcM12u9jOY0043YgS4XM";
+  Stripe.publishableKey =
+      "pk_test_51QLO18KCYYcZnriZlyXhnG9ZCL51lgQVnNkTiSDje6oveaCmfxdUNmevP06mmqzdevZTi2GKJBTvsWRcM12u9jOY0043YgS4XM";
   await SharedPreferencesHelper.init();
   await EasyLocalization.ensureInitialized();
   final GoogleMapsFlutterPlatform mapsImplementation =
@@ -51,7 +53,7 @@ void main() async {
           BlocProvider(create: (context) => getit<CategoryCubit>()),
           BlocProvider(create: (context) => getit<cardCubit>()),
           BlocProvider(create: (context) => getit<PaymentCubit>()),
-
+          BlocProvider(create: (context) => getit<SearchCubit>())
         ],
         child: const MyApp(),
       ),
